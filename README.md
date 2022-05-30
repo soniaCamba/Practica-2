@@ -89,10 +89,13 @@ static uint32_t lastMillis = 0;
 ```
 #include <Arduino.h>
 
+// Declaramos las variables que usaremos, la de la interrupción puntual y el contador total
 volatile int interruptCounter;
 int totalInterruptCounter;
- 
+
+// Creamos un puntero para el temporizador 
 hw_timer_t * timer = NULL;
+// I una variable para sincronizarllo todo
 portMUX_TYPE timerMux = portMUX_INITIALIZER_UNLOCKED;
  
 void IRAM_ATTR onTimer() {
@@ -133,18 +136,22 @@ void loop() {
 
 En este programa se ejecutará una interrupción del tipo Timer, aqui es el propio programa el que interrumpe con un contador de tiempo. En este caso habrá una cada segundo, que saldrá por pantalla junto al total de interrupcones que lleva.
 
-A continuación procedemos a explicar el codigo
+Una vez definidas todas las variables y otros objetos que usaremos (señalados en el codigo), pasamos a explicar el loop:
 
-> Declaramos las variables que usaremos, la de la interrupción puntual y el contador total
+> los comandos se ejecutan cada vez que se genera una interrupción
 ```
-volatile int interruptCounter;
-int totalInterruptCounter;
+if (interruptCounter > 0) {
 ```
-> Creamos un puntero para el temporizador 
+> Entonces la variable interruptCounter vuelve a pasar a cero, sino el codigo leeria constantemente interrupciones sin tener en cuenta las condiciones del programa
 ```
-hw_timer_t * timer = NULL;
+interruptCounter--;
 ```
-> I una variable para sincronizarllo todo
+> También el contador total se suma uno para tener una enumeración real
 ```
-portMUX_TYPE timerMux = portMUX_INITIALIZER_UNLOCKED;
+totalInterruptCounter++;
+```
+> Y finalmente se saca por pantalla el total de interrupciones que lleva el programa 
+```
+Serial.print("An interrupt as occurred. Total number: ");
+Serial.println(totalInterruptCounter);
 ```
