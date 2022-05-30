@@ -82,3 +82,61 @@ static uint32_t lastMillis = 0;
 
 }
 ```
+
+# Practica 2B
+
+## CODIGO DEL PROGRAMA
+```
+#include <Arduino.h>
+
+volatile int interruptCounter;
+int totalInterruptCounter;
+ 
+hw_timer_t * timer = NULL;
+portMUX_TYPE timerMux = portMUX_INITIALIZER_UNLOCKED;
+ 
+void IRAM_ATTR onTimer() {
+  portENTER_CRITICAL_ISR(&timerMux);
+  interruptCounter++;
+  portEXIT_CRITICAL_ISR(&timerMux);
+ 
+}
+ 
+void setup() {
+ 
+  Serial.begin(115200);
+ 
+  timer = timerBegin(0, 80, true);
+  timerAttachInterrupt(timer, &onTimer, true);
+  timerAlarmWrite(timer, 1000000, true);
+  timerAlarmEnable(timer);
+ 
+}
+ 
+void loop() {
+ 
+  if (interruptCounter > 0) {
+ 
+    portENTER_CRITICAL(&timerMux);
+    interruptCounter--;
+    portEXIT_CRITICAL(&timerMux);
+ 
+    totalInterruptCounter++;
+ 
+    Serial.print("An interrupt as occurred. Total number: ");
+    Serial.println(totalInterruptCounter);
+  }
+}
+```
+
+## FUNCIONAMIENTO
+
+En este programa se ejecutará una interrupción del tipo Timer, aqui es el propio programa el que interrumpe con un contador de tiempo. En este caso habrá una cada segundo, que saldrá por pantalla junto al total de interrupcones que lleva.
+
+A continuación procedemos a explicar el codigo
+
+> Declaramos las variables que usaremos, la de la interrupción puntual y el contador total
+```
+volatile int interruptCounter;
+int totalInterruptCounter;
+```
