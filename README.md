@@ -140,3 +140,11 @@ A continuación procedemos a explicar el codigo
 volatile int interruptCounter;
 int totalInterruptCounter;
 ```
+> Creamos un puntero para el temporizador 
+```
+hw_timer_t * timer = NULL;
+```
+> I una variable para sincronizarllo todo
+```
+portMUX_TYPE timerMux = portMUX_INITIALIZER_UNLOCKED;
+```
