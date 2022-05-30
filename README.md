@@ -4,7 +4,7 @@
 
 ## CODIGO:
 
-´´´
+```
 #include <Arduino.h>
 
 struct Button {
@@ -47,7 +47,7 @@ static uint32_t lastMillis = 0;
 
 }
 
-´´´
+```
 
 ## FUNCIONAMIENTO
 
