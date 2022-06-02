@@ -4,7 +4,7 @@ Hubo un momento en el que me funcionar el visual studio code y ya no pude grabar
 
 # Practica 2A
 
-## CODIGO:
+## CODIGO
 
 ```
 #include <Arduino.h>
