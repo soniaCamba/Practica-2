@@ -1,5 +1,7 @@
 # Practica-2
 
+*Hubo un momento en el que me funcionar el visual studio code y ya no pude grabar mas videos
+
 # Practica 2A
 
 ## CODIGO:
